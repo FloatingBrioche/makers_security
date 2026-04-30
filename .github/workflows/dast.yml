@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  issues: write
+  
 jobs:
   dast:
     name: OWASP ZAP BASELINE SCAN
@@ -23,7 +27,7 @@ jobs:
         ### Swap the actions used if you want a more comprehensive DAST analysis of your app :)
         uses: zaproxy/action-baseline@v0.15.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           target: "http://localhost:5000"
           fail_action: false
-          token: ${{ secrets.GITHUB_TOKEN }}
           issue_title: DAST Security Tests

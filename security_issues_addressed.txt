@@ -1,1 +1,2 @@
 1. Update SQLite query to use parametrized input and prevent SQL injection.
+2. Store secret key in .env and use longer, more randomised string.
