@@ -12,15 +12,16 @@ permissions:
 jobs:
   bandit:
     runs-on: ubuntu-latest
-
+    permissions:
+      # required for all workflows
+      security-events: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
     steps:
       - uses: actions/checkout@v6
-      - name: Bandit - Security Issues in Python code
-        uses: mdegis/bandit-action@v1.0.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          path: "."
-          exit_zero: true
+      - name: Perform Bandit Analysis
+        uses: PyCQA/bandit-action@v1.0.1
 
   semgrep:
     runs-on: ubuntu-latest
