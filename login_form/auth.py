@@ -14,11 +14,12 @@ bp = Blueprint('auth', __name__, url_prefix='/')
 def index():
     return render_template('index.html')
 
+
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        password = generate_password_hash(request.form['password'])
 
         error = None
 
@@ -33,6 +34,7 @@ def register():
 
     return render_template('register.html')
 
+
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
@@ -43,7 +45,10 @@ def login():
         user = User.find_with_credentials(username, password)
 
         if user is None:
-            error = 'Incorrect username or password.'
+            error = 'Incorrect username.'
+        else:
+            if not check_password_hash(user.password, password):
+                error = 'Incorrect password.'
 
         if error is None:
             session.clear()
@@ -63,10 +68,12 @@ def load_logged_in_user():
     else:
         g.user = User.find_by_id(user_id)
 
+
 @bp.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('auth.index'))
+
 
 def login_required(view):
     @functools.wraps(view)

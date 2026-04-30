@@ -13,13 +13,12 @@ class User():
     db.commit()
 
   @classmethod
-  def find_with_credentials(cls, username, password):
+  def find_by_username(cls, username, password):
     db = get_db()
     user = db.execute(
-      "SELECT id, username, password FROM user WHERE username = ':username' AND password = ':password'",
-      {'username': username, 'password': password}
+      "SELECT id, username, password FROM user WHERE username = ':username'",
+      {'username': username}
     ).fetchone()
-    print(user)
     if user:
         return User(user['username'], user['password'], user['id'])
     else:
