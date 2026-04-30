@@ -23,7 +23,7 @@ jobs:
       - name: Launching the Insecure Acebook app
         run: docker run -d -p 5000:5000 -e SECRET_KEY="${{ secrets.SECRET_KEY }}" insecure-acebook
 
-      - name: OWASP ZAP
+      - name: OWASP ZAP  # https://github.com/marketplace/actions/zap-baseline-scan
         ### Swap the actions used if you want a more comprehensive DAST analysis of your app :)
         uses: zaproxy/action-baseline@v0.15.0
         with:

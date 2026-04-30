@@ -10,7 +10,7 @@ permissions:
   issues: write
 
 jobs:
-  bandit:
+  bandit:  # reqs: https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/configure-code-scanning/configuring-default-setup-for-code-scanning
     runs-on: ubuntu-latest
     permissions:
       # required for all workflows
@@ -22,11 +22,6 @@ jobs:
       - uses: actions/checkout@v6
       - name: Perform Bandit Analysis
         uses: PyCQA/bandit-action@v1.0.1
-        with: # optional arguments
-          # exit with 0, even with results found
-          exit_zero: true # optional, default is DEFAULT
-          # Github token of the repository (automatically created by Github)
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
 
   semgrep:
     runs-on: ubuntu-latest
@@ -42,23 +37,32 @@ jobs:
             p/security-audit
             p/secrets
 
-  depcheck:
-    runs-on: ubuntu-latest
+# dependency-check isn't the best tool for Python applications
+  # depcheck:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: 
+  #     - uses: actions/checkout@v6
+  #     - name: Depcheck tool
+  #       uses: dependency-check/Dependency-Check_Action@main
+  #       id: Depcheck
+  #       with:
+  #         project: 'insecure-acebook'
+  #         path: '.'
+  #         format: 'HTML'
+  #         args: >
+  #           --failOnCVSS 7
+  #           --enableRetired
+  #     - name: Upload Test results
+  #       uses: actions/upload-artifact@main
+  #       with:
+  #         name: Depcheck report
+  #         path: ${{github.workspace}}/reports
 
+  audit-dependencies:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Depcheck tool
-        uses: dependency-check/Dependency-Check_Action@main
-        id: Depcheck
-        with:
-          project: 'insecure-acebook'
-          path: '.'
-          format: 'HTML'
-          args: >
-            --failOnCVSS 7
-            --enableRetired
-      - name: Upload Test results
-        uses: actions/upload-artifact@main
-        with:
-          name: Depcheck report
-          path: ${{github.workspace}}/reports
+      - name: install
+        run: python -m pip install -r requirements.txt
+      - uses: pypa/gh-action-pip-audit@v1.1.0
