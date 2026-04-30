@@ -1,0 +1,1 @@
+1. Update SQLite query to use parametrized input and prevent SQL injection.
