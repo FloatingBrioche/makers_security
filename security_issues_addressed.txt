@@ -2,3 +2,4 @@
 2. Store secret key in .env and use longer, more randomised string.
 3. Remove logging of user credentials.
 4. Implement password hashing.
+5. Upgrade dependencies for known vulnerabilities (pip-audit)
