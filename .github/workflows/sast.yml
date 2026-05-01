@@ -64,8 +64,8 @@ jobs:
   audit-dependencies:
     runs-on: ubuntu-latest
     steps:
-      - name: Check dir
-        run: ls
+      uses: 
+      - uses: actions/checkout@v6
       - uses: pypa/gh-action-pip-audit@v1.1.0
         with:
           inputs: requirements.txt
