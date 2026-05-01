@@ -40,7 +40,7 @@ def create_app(test_config=None):
     def add_security_headers(resp):
         resp.headers['Content-Security-Policy']="default-src 'self'; frame-ancestors 'none'; form-action 'self'"
         resp.headers['Cross-Origin-Embedder-Policy']="require-corp"
-        del resp.headers['Server']
+        resp.headers['Server']=None
         return resp
 
     return app
