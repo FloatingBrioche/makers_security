@@ -19,6 +19,11 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
+    app.config.update(
+        SESSION_COOKIE_HTTPONLY=True,
+        SESSION_COOKIE_SAMESITE='Lax',
+    )
+
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
@@ -40,7 +45,8 @@ def create_app(test_config=None):
     def add_security_headers(resp):
         resp.headers['Content-Security-Policy']="default-src 'self'; frame-ancestors 'none'; form-action 'self'"
         resp.headers['Cross-Origin-Embedder-Policy']="require-corp"
-        resp.headers['Server']=None
+        resp.headers['X-Content-Type-Options'] = 'nosniff'
+        resp.set_cookie(httponly=True, samesite='Lax')
         return resp
 
     return app
