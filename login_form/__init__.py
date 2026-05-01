@@ -1,12 +1,22 @@
 import os
+
 from flask import Flask
 from dotenv import load_dotenv
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 load_dotenv()
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    limiter = Limiter(
+        get_remote_address,
+        app=app,
+        default_limits=["200 per day", "50 per hour"],
+        storage_uri="memory://",
+    )
+
     app.config.from_mapping(
         SECRET_KEY=os.environ.get("SECRET_KEY"),
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
@@ -32,6 +42,7 @@ def create_app(test_config=None):
 
     # a simple page that says hello
     @app.route('/hello')
+    
     def hello():
         return 'Hello, World!'
 
