@@ -7,3 +7,4 @@
 7. Update 'Cross-Origin-Embedder-Policy' response header: add "require-corp".
 8. Set 'X-Content-Type-Options' response header to 'nosniff' to prevent older browsers sniffing harmful content marked as a different data type.
 9. Set SameSite attribute for cookies to 'Lax' to reduce chance of CSRF.
+10. Add rate limiting.
