@@ -13,7 +13,7 @@ class User():
     db.commit()
 
   @classmethod
-  def find_by_username(cls, username, password):
+  def find_by_username(cls, username):
     db = get_db()
     user = db.execute(
       "SELECT id, username, password FROM user WHERE username = ':username'",

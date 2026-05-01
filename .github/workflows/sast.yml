@@ -22,7 +22,6 @@ jobs:
         uses: PyCQA/bandit-action@v1.0.1
         with:
           targets: "."
-          python-version: "3.11"
 
   semgrep:
     runs-on: ubuntu-latest
@@ -31,12 +30,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-      - name: Semgrep - Lightweight SAST to find bugs and enfource code standards
+      - name: Semgrep - Lightweight SAST to find bugs and enforce code standards
         uses: returntocorp/semgrep-action@v1
         with:
           config: >- # more at semgrep.dev/explore
             p/security-audit
             p/secrets
+
+  audit-dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pypa/gh-action-pip-audit@v1.1.0
+        with:
+          inputs: requirements.txt
+          ignore-vulns: |
+            PYSEC-2022-42969
+
 
 # dependency-check isn't the best tool for Python applications
   # depcheck:
@@ -59,13 +69,3 @@ jobs:
   #       with:
   #         name: Depcheck report
   #         path: ${{github.workspace}}/reports
-
-  audit-dependencies:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: pypa/gh-action-pip-audit@v1.1.0
-        with:
-          inputs: requirements.txt
-          ignore-vulns: |
-            PYSEC-2022-42969

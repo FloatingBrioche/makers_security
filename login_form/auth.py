@@ -42,7 +42,7 @@ def login():
         password = request.form['password']
 
         error = None
-        user = User.find_with_credentials(username, password)
+        user = User.find_by_username(username)
 
         if user is None:
             error = 'Incorrect username.'
