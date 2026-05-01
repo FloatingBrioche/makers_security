@@ -25,7 +25,8 @@ jobs:
 
       - name: OWASP ZAP  # https://github.com/marketplace/actions/zap-baseline-scan
         ### Swap the actions used if you want a more comprehensive DAST analysis of your app :)
-        uses: zaproxy/action-baseline@v0.15.0
+        # uses: zaproxy/action-baseline@v0.15.0
+        uses: zaproxy/action-full-scan@v0.13.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           target: "http://localhost:5000"
