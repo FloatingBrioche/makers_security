@@ -5,3 +5,4 @@
 5. Upgrade dependencies for known vulnerabilities (pip-audit)
 6. Update 'Content-Security-Policy' – add: frame-ancestors 'none'; form-action 'self' – in response header to protect against CSRF
 7. Update 'Cross-Origin-Embedder-Policy' – add "require-corp" – in response header.
+8. Remove app info leakage via "Server" header.
