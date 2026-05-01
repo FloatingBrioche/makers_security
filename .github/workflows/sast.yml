@@ -18,12 +18,11 @@ jobs:
       # only required for workflows in private repositories
       actions: read
     steps:
-      - name: Check out code
-        uses: actions/checkout@v6
       - name: Perform Bandit Analysis
         uses: PyCQA/bandit-action@v1.0.1
         with:
-          targets: "login_form"
+          targets: "."
+          python-version: "3.11"
 
   semgrep:
     runs-on: ubuntu-latest
